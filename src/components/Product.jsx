@@ -14,6 +14,8 @@ const Product = ({
 }) => {
   const taxRate = 0.18;
   const shipping = 25;
+  const dampingRate = 0.8;
+  const dampPrice = price * dampingRate
 
   const [amount, setAmount] = useState(1);
 
@@ -26,6 +28,33 @@ const Product = ({
     getProducts();
   };
 
+  const handleIncrease = async (id) => {
+    try {
+
+        const newAmount = amount + 1 
+        await axios.put(`${process.env.REACT_APP_URL}${id}`, {amount : newAmount});
+        setAmount(newAmount);
+        
+    } catch (error) {
+      console.log(error);
+    }
+    getProducts();
+  };
+
+  const handleDecrease = async (id) => {
+    try {
+
+        const newAmount = amount - 1 
+        await axios.put(`${process.env.REACT_APP_URL}${id}`, {amount : newAmount});
+        setAmount(amount > 1 ? newAmount : amount);
+        
+    } catch (error) {
+      console.log(error);
+    }
+    getProducts();
+  };
+  
+
   return (
     <div>
       <div key={id} className="card mb-3" style={{ maxWidth: 540 }}>
@@ -37,18 +66,20 @@ const Product = ({
             <div className="card-body text-justify">
               <h5 className="card-title">{name}</h5>
               <div className="card-text">
-                <p>Price : ${price}</p>
+                <p><span className="fs-4 text-warning">Price : ${dampPrice.toFixed(2)}</span> <span className="ms-3 text-decoration-line-through">${price}</span></p>
                 <div className="buttons fs-4 m-2 border border-2 text-center rounded-2">
                   <span
                     className="me-2 text-danger"
-                    onClick={() => setAmount(amount > 1 ? amount - 1 : amount)}
+                    //onClick={() => setAmount(amount > 1 ? amount - 1 : amount)}
+                    onClick={() => handleDecrease(id)}
                   >
                     <FaRegMinusSquare />
                   </span>
                   {amount}
                   <span
                     className="ms-2 text-danger"
-                    onClick={() => setAmount(amount + 1)}
+                    onClick={() => handleIncrease(id)}
+
                   >
                     <FaRegPlusSquare />
                   </span>
@@ -62,7 +93,7 @@ const Product = ({
               </div>
               <p className="card-text">
                 <small className="text-body-secondary">
-                  Product Total: ${(price * amount).toFixed(2)}
+                  Product Total: ${(dampPrice * amount).toFixed(2)}
                 </small>
               </p>
             </div>
@@ -70,12 +101,12 @@ const Product = ({
         </div>
       </div>
       <div>
-        <p>Subtotal: ${(price * amount).toFixed(2)} </p>
-        <p>Tax(%18): ${(price * amount * taxRate).toFixed(2)}</p>
+        <p>Subtotal: ${(dampPrice * amount).toFixed(2)} </p>
+        <p>Tax(%18): ${(dampPrice * amount * taxRate).toFixed(2)}</p>
         <p>Shipping: ${shipping} </p>
         <p>
           Total: $
-          {(price * amount + price * amount * taxRate + shipping).toFixed(2)}{" "}
+          {(dampPrice * amount + dampPrice * amount * taxRate + shipping).toFixed(2)}{" "}
         </p>
       </div>
     </div>

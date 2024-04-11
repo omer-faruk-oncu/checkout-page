@@ -5,7 +5,7 @@ import { GiShoppingCart } from "react-icons/gi";
 const AddProduct = ({ getProducts }) => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
-  const [amount, setAmount] = useState(1);
+  const [amount, setAmount] = useState();
   const [image, setImage] = useState("");
 
   const handleSubmit = (e) => {
@@ -22,7 +22,7 @@ const AddProduct = ({ getProducts }) => {
 
   const postProduct = async (newProduct) => {
     try {
-      const res = await axios.post(process.env.REACT_APP_URL, newProduct);
+      await axios.post(process.env.REACT_APP_URL, newProduct);
     } catch (error) {
       console.log(error);
     }
