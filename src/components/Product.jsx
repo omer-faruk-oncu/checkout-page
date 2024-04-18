@@ -15,7 +15,7 @@ const Product = ({
   const taxRate = 0.18;
   const shipping = 25;
   const dampingRate = 0.8;
-  const dampPrice = price * dampingRate
+  const dampPrice = price * dampingRate;
 
   const [amount, setAmount] = useState(1);
 
@@ -30,11 +30,11 @@ const Product = ({
 
   const handleIncrease = async (id) => {
     try {
-
-        const newAmount = amount + 1 
-        await axios.put(`${process.env.REACT_APP_URL}${id}`, {amount : newAmount});
-        setAmount(newAmount);
-        
+      const newAmount = amount + 1;
+      await axios.put(`${process.env.REACT_APP_URL}${id}`, {
+        amount: newAmount,
+      });
+      setAmount(newAmount);
     } catch (error) {
       console.log(error);
     }
@@ -43,17 +43,16 @@ const Product = ({
 
   const handleDecrease = async (id) => {
     try {
-
-        const newAmount = amount - 1 
-        await axios.put(`${process.env.REACT_APP_URL}${id}`, {amount : newAmount});
-        setAmount(amount > 1 ? newAmount : amount);
-        
+      const newAmount = amount - 1;
+      await axios.put(`${process.env.REACT_APP_URL}${id}`, {
+        amount: newAmount,
+      });
+      setAmount(amount > 1 ? newAmount : amount);
     } catch (error) {
       console.log(error);
     }
     getProducts();
   };
-  
 
   return (
     <div>
@@ -66,7 +65,14 @@ const Product = ({
             <div className="card-body text-justify">
               <h5 className="card-title">{name}</h5>
               <div className="card-text">
-                <p><span className="fs-4 text-warning">Price : ${dampPrice.toFixed(2)}</span> <span className="ms-3 text-decoration-line-through">${price}</span></p>
+                <p>
+                  <span className="fs-4 text-warning">
+                    Price : ${dampPrice.toFixed(2)}
+                  </span>{" "}
+                  <span className="ms-3 text-decoration-line-through">
+                    ${price}
+                  </span>
+                </p>
                 <div className="buttons fs-4 m-2 border border-2 text-center rounded-2">
                   <span
                     className="me-2 text-danger"
@@ -79,18 +85,22 @@ const Product = ({
                   <span
                     className="ms-2 text-danger"
                     onClick={() => handleIncrease(id)}
-
                   >
                     <FaRegPlusSquare />
                   </span>
                 </div>
               </div>
-              <div>
-                <div className="border border-2 text-center bg-danger text-white rounded-2 m-2" onClick={() => handleRemove(id)}>
-                  <span className="me-2 fs-4"><RiDeleteBinLine /></span>
-                  Remove
-                </div>
+
+              <div
+                className="border border-2 text-center bg-danger text-white rounded-2 m-2"
+                onClick={() => handleRemove(id)}
+              >
+                <span className="me-2 fs-4">
+                  <RiDeleteBinLine />
+                </span>
+                Remove
               </div>
+
               <p className="card-text">
                 <small className="text-body-secondary">
                   Product Total: ${(dampPrice * amount).toFixed(2)}
@@ -101,12 +111,26 @@ const Product = ({
         </div>
       </div>
       <div>
-        <p>Subtotal: ${(dampPrice * amount).toFixed(2)} </p>
-        <p>Tax(%18): ${(dampPrice * amount * taxRate).toFixed(2)}</p>
-        <p>Shipping: ${shipping} </p>
-        <p>
-          Total: $
-          {(dampPrice * amount + dampPrice * amount * taxRate + shipping).toFixed(2)}{" "}
+        <p className="d-flex justify-content-between border-bottom">
+          <span>Subtotal:</span>{" "}
+          <span className="ms-5">${(dampPrice * amount).toFixed(2)}</span>
+        </p>
+        <p className="d-flex justify-content-between border-bottom">
+          <span>Tax(%18):</span>{" "}
+          <span>${(dampPrice * amount * taxRate).toFixed(2)}</span>
+        </p>
+        <p className="d-flex justify-content-between border-bottom">
+          <span>Shipping:</span> <span>${shipping}</span>
+        </p>
+        <p className="d-flex justify-content-between border-bottom">
+          <span>Total: </span>
+          <span>
+          ${(
+              dampPrice * amount +
+              dampPrice * amount * taxRate +
+              shipping
+            ).toFixed(2)}
+          </span>
         </p>
       </div>
     </div>
