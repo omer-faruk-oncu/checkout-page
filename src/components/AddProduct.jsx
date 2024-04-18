@@ -5,14 +5,12 @@ import { GiShoppingCart } from "react-icons/gi";
 const AddProduct = ({ getProducts, quantity, setQuantity }) => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState();
-  //const [quantity, setQuantity] = useState();
   const [image, setImage] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const newProduct = { name, price, quantity, image };
-    //console.log(newProduct);
     postProduct(newProduct);
     setName("");
     setPrice("");
@@ -81,7 +79,7 @@ const AddProduct = ({ getProducts, quantity, setQuantity }) => {
               https://example.com/
             </span>
             <input
-              type="text"
+              type="url"
               className="form-control"
               id="image-url"
               aria-describedby="basic-addon3 basic-addon4"
