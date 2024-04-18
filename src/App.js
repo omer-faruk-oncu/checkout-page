@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 function App() {
   const [products, setProducts] = useState([]);
   const [showBar, setShowBar] = useState(true);
+  const [quantity, setQuantity] = useState();
 
   const handleShow = () => {
     setShowBar(!showBar);
@@ -35,8 +36,8 @@ function App() {
         </button>
       </div>
       <div className="d-flex justify-content-center gap-2">
-        {showBar && <AddProduct getProducts={getProducts} />}
-        <ProductList products={products} setProducts={setProducts} getProducts={getProducts} />
+        {showBar && <AddProduct getProducts={getProducts} quantity={quantity} setQuantity={setQuantity}/>}
+        <ProductList products={products} setProducts={setProducts} getProducts={getProducts} quantity={quantity} setQuantity={setQuantity} />
       </div>
     </div>
   );

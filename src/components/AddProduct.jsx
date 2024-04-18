@@ -2,21 +2,21 @@ import axios from "axios";
 import { useState } from "react";
 import { GiShoppingCart } from "react-icons/gi";
 
-const AddProduct = ({ getProducts }) => {
+const AddProduct = ({ getProducts, quantity, setQuantity }) => {
   const [name, setName] = useState("");
-  const [price, setPrice] = useState(0);
-  const [amount, setAmount] = useState();
+  const [price, setPrice] = useState();
+  //const [quantity, setQuantity] = useState();
   const [image, setImage] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const newProduct = { name, price, amount, image };
+    const newProduct = { name, price, quantity, image };
     //console.log(newProduct);
     postProduct(newProduct);
     setName("");
-    setPrice(0);
-    setAmount(1);
+    setPrice("");
+    setQuantity("");
     setImage("");
   };
 
@@ -66,8 +66,8 @@ const AddProduct = ({ getProducts }) => {
             type="number"
             className="form-control"
             id="amount"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
             required
           />
         </div>

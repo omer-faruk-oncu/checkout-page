@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaRegMinusSquare, FaRegPlusSquare } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
@@ -11,13 +11,18 @@ const Product = ({
   products,
   setProducts,
   getProducts,
+  quantity, setQuantity
 }) => {
   const taxRate = 0.18;
   const shipping = 25;
   const dampingRate = 0.8;
   const dampPrice = price * dampingRate;
 
-  const [amount, setAmount] = useState(1);
+  const [amount, setAmount] = useState(quantity);
+
+  useEffect(() => {
+    setAmount(quantity);  
+  }, [quantity]);
 
   const handleRemove = async (id) => {
     try {
@@ -30,7 +35,7 @@ const Product = ({
 
   const handleIncrease = async (id) => {
     try {
-      const newAmount = amount + 1;
+      const newAmount = Number(amount) + 1;
       await axios.put(`${process.env.REACT_APP_URL}${id}`, {
         amount: newAmount,
       });
